@@ -19,7 +19,7 @@ def main():
                         dest="page_num", default=0,
                         help="Page number to start requests from.  0 <= i <= 44")
     parser.add_option("-n", "-N", "--number-of-pages", action="store", type="int",
-                        dest="num_pages", default = 100000,
+                        dest="num_pages", default = 50,
                         help="Number of pages to request. Runtime = ~60 * N")
     parser.add_option("-t", "--sleep-time", action="store", type="int",
                         dest="sleep_time", default=75,
@@ -44,8 +44,6 @@ def main():
     os.chdir(out_dir)
 
     base_url = "https://steamspy.com/api.php?request=all&page={}"
-    rq_part_1 = "all"
-    rq_part_2 = "&page="
     
     response = '-1'
     page_num = options.page_num

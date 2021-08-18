@@ -1,3 +1,9 @@
+# Eric Drejza
+# Data Mining II
+
+*.log
+config.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,30 @@
+{
+    "Eric": {
+        "color": "blue",
+        "first_name": "Eric",
+        "key1": {
+            "key2": "value1"
+        },
+        "last_name": "Drejza",
+        "numbers": [
+            1,
+            2,
+            3,
+            4
+        ]
+    },
+    "Matt": {
+        "color": "brown",
+        "first_name": "Matt",
+        "key1": {
+            "key2": "value2"
+        },
+        "last_name": "Drejza",
+        "numbers": [
+            3,
+            6,
+            7,
+            9
+        ]
+    }
+}
