@@ -2,7 +2,6 @@
 # Eric Drejza
 # Data Mining II
 
-from ast import dump
 import os
 import sys
 import time

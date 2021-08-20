@@ -1,4 +1,4 @@
-#,Tag,Games with this tag,Votes for this tag,Tag weight,Price (median),Userscore (median),Owners (median),Playtime (median)
+id,tag,num_games,num_votes,tag_weight,price_median,userscore_median,owners_median,playtime_median
 1,Indie,5173,277792,54,499,78%,900000,2:24
 2,Action,3894,442928,114,499,79%,2100000,2:35
 3,Adventure,3338,295347,88,599,79%,2100000,3:02
