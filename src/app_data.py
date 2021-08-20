@@ -10,6 +10,9 @@ import requests
 import json
 import jsonmerge
 from optparse import OptionParser
+
+from requests.models import ReadTimeoutError
+from requests.packages.urllib3 import exceptions
 # import mysql.connector
 # from mysql.connector import errorcode
 
@@ -101,21 +104,23 @@ def main():
         print(str(app_count+1) + ' : ' + str(app_id))
         # print(base_url.format(str(app_id)))
         try:
-            response = requests.get(base_url.format(str(app_id)))
+            response = requests.get(base_url.format(str(app_id)), timeout=10)
             if response is None or response == 0:
                 break
             data = response.json()
             aggregate[str(data["appid"])] = data
             # aggregate = jsonmerge.merge(aggregate, data)
             retry_count = 0
-        except json.decoder.JSONDecodeError as e:
-            print('Error: ' + e.with_traceback)
+        except (json.decoder.JSONDecodeError, requests.exceptions.ReadTimeout) as e:
+            print('Error: ' + str(e.with_traceback))
+            print('Response: "' + str(response) + '"')
             print('Error: {}'.format(app_id))
             if retry_count < retry_max:
                 retry_count = retry_count + 1
                 continue
             else:
                 retry_count = 0
+                index = index + 1
                 continue
 
         # Sleep to respect site api call frequency
