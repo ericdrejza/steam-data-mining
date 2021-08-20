@@ -66,53 +66,77 @@ def main():
     else:
         out_dir = os.path.dirname(options.out_path)
         outfile = os.path.basename(options.out_path)
-    os.system("mkdir -p {}".format(out_dir))
-    print("outpath: " + os.path.abspath(out_dir) + '/' + outfile)
-    os.chdir(out_dir)
 
     base_url = "https://steamspy.com/api.php?request=appdetails&appid={}"
     
     response = '-1'
     index = options.id_start_index
     app_count = 0
+    if index != 0 and options.agg_file_path is not None:
+        app_count = index+1
 
     app_ids = []
     if len(args) > 0:
         app_ids = args
     if options.argument_file is not None:
-        with open(os.path.abspath(options.argument_file)) as arg_file:
+        with open(options.argument_file) as arg_file:
             lines = arg_file.readlines()
             stripped_lines = [str(l).strip() for l in lines]
             app_ids.extend(stripped_lines)
-    
+
     if options.agg_file_path is not None:
         aggregate = json.load(open(options.agg_file_path))
     else:
         aggregate = {}
 
+    os.system("mkdir -p {}".format(out_dir))
+    print("outpath: " + os.path.abspath(out_dir) + '/' + outfile)
+    os.chdir(out_dir)
+    
+    retry_count = 0
+    retry_max = 3
+
     while response is not None and response != "" and app_count < options.num_apps and index < len(app_ids):
         app_id = app_ids[index]
-        print(base_url.format(str(app_id)))
-        response = requests.get(base_url.format(str(app_id)))
-        if response is None or response == 0:
-            break
-        data = response.json()
-        aggregate[str(data["appid"])] = data
-        # aggregate = jsonmerge.merge(aggregate, data)
-
+        print(str(app_count+1) + ' : ' + str(app_id))
+        # print(base_url.format(str(app_id)))
+        try:
+            response = requests.get(base_url.format(str(app_id)))
+            if response is None or response == 0:
+                break
+            data = response.json()
+            aggregate[str(data["appid"])] = data
+            # aggregate = jsonmerge.merge(aggregate, data)
+            retry_count = 0
+        except json.decoder.JSONDecodeError as e:
+            print('Error: ' + e.with_traceback)
+            print('Error: {}'.format(app_id))
+            if retry_count < retry_max:
+                retry_count = retry_count + 1
+                continue
+            else:
+                retry_count = 0
+                continue
 
         # Sleep to respect site api call frequency
         time.sleep(options.sleep_time)
 
         index = index + 1
         app_count = app_count + 1
-        print(app_count)
-    
-    # print(json.dumps(aggregate, indent=4, sort_keys=True))
+
+        if app_count % 250 == 0:
+            with open(outfile, "w") as outfile_file:
+                json.dump(aggregate, outfile_file, indent=4, sort_keys=True)
+                print('DUMPED')
+            outfile_file.close()
 
     with open(outfile, "w") as outfile_file:
         json.dump(aggregate, outfile_file, indent=4, sort_keys=True)
-        print(outfile + '\n')
+        print('DUMPED')                    
+    print(outfile + '\n')
+
+    # print(json.dumps(aggregate, indent=4, sort_keys=True))
+
     print('Response: "' + str(response) + '"')
 
 if __name__ == "__main__":
