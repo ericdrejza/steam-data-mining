@@ -19,7 +19,7 @@ def main():
     parser = OptionParser()
 
     parser.add_option("-t", "--sleep-time", action="store", type="int",
-                        dest="sleep_time", default=75,
+                        dest="sleep_time", default=60,
                         help="How long the program sleeps between api calls")
     parser.add_option("-C", "--out_dir", action="store", type="string", dest="out_dir",
                         help="Path to directory to store outfiles.")
@@ -51,6 +51,7 @@ def main():
             break
     else:
         out_dir = options.out_dir
+    
     print("out_dir: " + out_dir)
     os.system("mkdir -p {}".format(out_dir))
     os.chdir(out_dir)

@@ -5,12 +5,6 @@
 from ast import dump
 import os
 import sys
-import time
-from datetime import datetime
-import requests
-import json
-import jsonmerge
-from optparse import OptionParser
 import csv
 
 from requests.api import request
@@ -42,10 +36,10 @@ def main():
             owners = row['owners_median']
             playtime = str(int(row['playtime_median'].split(':')[0]) * 60 + int(row['playtime_median'].split(':')[1]))
             
-            #                                   i    s    i   i   i    f    f  i    i
+            # type                              i    s    i   i   i    f   f  i   i
             script_string = script_string + '\t({}, "{}", {}, {}, {}, {}, {}, {}, {}),\n'\
               .format(_id_, tag, num_games, num_votes, tag_weight, price_median, userscore_median, owners, playtime)
-    #                  i     s       i          i          i           f              f
+    #         type     i     s       i          i          i           f              f              i        i
 
     script_string = script_string[:-2]
     print(script_string)
