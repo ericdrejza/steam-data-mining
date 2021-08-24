@@ -1,0 +1,30 @@
+{
+    "id_key" : {
+        "1" : "Action",
+        "2" : "Adventure",
+        "3" : "Casual",
+        "4" : "Early Access",
+        "5" : "Free to Play",
+        "6" : "Indie",
+        "7" : "Massively Multiplayer",
+        "8" : "Racing",
+        "9" : "RPG",
+        "10" : "Simulation",
+        "11" : "Sports",
+        "12" : "Strategy"
+    },
+    "name_key" : {
+        "Action" : 1,
+        "Adventure" : 2,
+        "Casual" : 3,
+        "Early Access" : 4,
+        "Free to Play" : 5,
+        "Indie" : 6,
+        "Massively Multiplayer" : 7,
+        "Racing" : 8,
+        "RPG" : 9,
+        "Simulation" : 10,
+        "Sports" : 11,
+        "Strategy" : 12
+    }
+}
